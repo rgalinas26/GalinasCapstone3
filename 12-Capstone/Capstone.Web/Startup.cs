@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Capstone.Web.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,8 +31,18 @@ namespace Capstone.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                // Sets session expiration to 20 minuates
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = true;
+            });
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            string connectionString = Configuration.GetConnectionString("Default");
+            services.AddTransient<IParkDAO, ParkSQLDAO>(d => new ParkSQLDAO(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

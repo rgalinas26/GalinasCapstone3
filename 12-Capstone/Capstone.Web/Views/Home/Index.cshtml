@@ -1,4 +1,28 @@
-﻿@{
+﻿@model IList<Park>
+@{
     ViewData["Title"] = "Home Page";
 }
 
+
+
+<table class="table table-bordered">
+
+    @foreach (Park park in Model)
+    {
+        <tr>
+            <td>
+                <img src="~/images/parks/@(park.Park_Code).jpg" />
+            </td>
+            <td>
+                <b>Location:</b> <br/> @park.State
+            </td>
+            <td>
+                <b>Park Name: </b><br/>@park.Park_Name
+            </td>
+            <td>
+                <b>Description:</b><br/>@park.Description
+            </td>
+
+        </tr>
+    }
+</table>
