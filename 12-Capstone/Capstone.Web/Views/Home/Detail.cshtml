@@ -1,0 +1,61 @@
+﻿@model Park
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h2>Detail</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>@Model.Park_Name (@Model.Park_Code)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+
+                <img src="~/images/parks/@(Model.Park_Code).jpg" /> <span>Description: @Model.Description</span>
+            </td>
+        </tr>
+        <tr>
+            <td><b>Location:</b> @Model.State</td>
+        </tr>
+        <tr>
+            <td><b>Acerage:</b> @Model.Acerage</td>
+        </tr>
+        <tr>
+            <td><b>Elevation:</b> @Model.Elevation_In_Feet feet</td>
+        </tr>
+        <tr>
+            <td><b>Total Trail Length:</b> @Model.Miles_Of_Trail miles</td>
+        </tr>
+        <tr>
+            <td><b>Number of Campsites:</b> @Model.Number_Of_Campsites</td>
+        </tr>
+        <tr>
+            <td><b>Climate:</b> @Model.Climate</td>
+        </tr>
+        <tr>
+            <td><b>Year Founded:</b> @Model.Year_Founded</td>
+        </tr>
+        <tr>
+            <td><b>Annual Visitor Count:</b> @Model.Annual_Visitor_Count</td>
+        </tr>
+        <tr>
+            <td><b>Official Park Quote:</b> "@Model.Quote" -@Model.Quote_Source </td>
+        </tr>
+        <tr>
+            <td><b>Entry Fee:</b> @($"{Model.Entry_Fee:C}")</td>
+        </tr>
+        <tr>
+            <td><b>Number of Species:</b> @Model.Number_Of_Species</td>
+        </tr>
+        <tr>
+            <td>
+                <a asp-controller="home" asp-action="Forecast" asp-route-parkCode="@Model.Park_Code">
+                    <span>Get Five Day Forecast for @Model.Park_Name</span>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

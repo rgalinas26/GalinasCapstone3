@@ -43,9 +43,63 @@ namespace Capstone.Web.DAL
             return parks;
         }
 
-        public Park GetParkById(int id)
+        public Park GetParkById(string id)
         {
-            throw new NotImplementedException();
+            Park park = null;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand("SELECT * FROM park WHERE parkCode = @id", connection);
+                    command.Parameters.AddWithValue("@id", id);
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        park = MapRowToProduct(reader);
+                    }
+
+                    return park;
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.Error.WriteLine($"An error occurred reading product {id} - ${ex}");
+                throw;
+            }
+        }
+
+        public IList<ParkWeather> GetWeather(string id)
+        {
+            List<ParkWeather> weather = new List<ParkWeather>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand("SELECT * FROM weather WHERE parkCode = @id", connection);
+                    command.Parameters.AddWithValue("@id", id);
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        weather.Add(MapWeatherToProduct(reader));
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.Error.WriteLine($"Exception occurred reading product data - ${ex}");
+                throw;
+            }
+
+            return weather;
         }
 
         private Park MapRowToProduct(SqlDataReader reader)
@@ -67,6 +121,17 @@ namespace Capstone.Web.DAL
             park.Entry_Fee = Convert.ToInt32(reader["entryFee"]);
             park.Number_Of_Species = Convert.ToInt32(reader["numberOfAnimalSpecies"]);
             return park;
+        }
+        private ParkWeather MapWeatherToProduct(SqlDataReader reader)
+        {
+            ParkWeather parkWeather = new ParkWeather();
+            parkWeather.Park_Code = Convert.ToString(reader["parkCode"]);
+            parkWeather.FiveDayForecastValue = Convert.ToInt32(reader["fiveDayForecastValue"]);
+            parkWeather.LowTemp = Convert.ToInt32(reader["low"]);
+            parkWeather.HighTemp = Convert.ToInt32(reader["high"]);
+            parkWeather.Forecast = Convert.ToString(reader["forecast"]);
+
+            return parkWeather;
         }
     }
 }

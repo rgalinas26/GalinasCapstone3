@@ -9,6 +9,7 @@ namespace Capstone.Web.DAL
     public interface IParkDAO
     {
         IList<Park> GetAllParks();
-        Park GetParkById(int id);
+        Park GetParkById(string id);
+        IList<ParkWeather> GetWeather(string id);
     }
 }
