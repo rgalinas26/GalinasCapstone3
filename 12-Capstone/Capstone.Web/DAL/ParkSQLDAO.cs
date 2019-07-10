@@ -72,7 +72,7 @@ namespace Capstone.Web.DAL
             }
         }
 
-        public IList<ParkWeather> GetWeather(string id)
+        public IList<ParkWeather> GetWeather(string id, string unit)
         {
             List<ParkWeather> weather = new List<ParkWeather>();
 
@@ -122,15 +122,25 @@ namespace Capstone.Web.DAL
             park.Number_Of_Species = Convert.ToInt32(reader["numberOfAnimalSpecies"]);
             return park;
         }
-        private ParkWeather MapWeatherToProduct(SqlDataReader reader)
+        private ParkWeather MapWeatherToProduct(SqlDataReader reader, string unit = "F")
         {
             ParkWeather parkWeather = new ParkWeather();
             parkWeather.Park_Code = Convert.ToString(reader["parkCode"]);
             parkWeather.FiveDayForecastValue = Convert.ToInt32(reader["fiveDayForecastValue"]);
-            parkWeather.LowTemp = Convert.ToInt32(reader["low"]);
-            parkWeather.HighTemp = Convert.ToInt32(reader["high"]);
+            if (unit.ToLower() == "c")
+            {
+                // todo: convert
+                parkWeather.LowTemp = Convert.ToInt32(reader["low"]);
+                parkWeather.HighTemp = Convert.ToInt32(reader["high"]);
+                parkWeather.Temperature_Unit = "C";
+            }
+            else
+            {
+                parkWeather.LowTemp = Convert.ToInt32(reader["low"]);
+                parkWeather.HighTemp = Convert.ToInt32(reader["high"]);
+                parkWeather.Temperature_Unit = "F";
+            }
             parkWeather.Forecast = Convert.ToString(reader["forecast"]);
-
             return parkWeather;
         }
     }

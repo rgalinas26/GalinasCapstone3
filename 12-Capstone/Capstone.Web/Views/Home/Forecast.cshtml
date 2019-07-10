@@ -4,4 +4,71 @@
 }
 
 <h2>Forecast</h2>
+<form asp-action="SetPreferredUnit" asp-controller="home" asp-route-unit="Unit" method="post">
+    <label>Convert</label>
+    <br />
+    <input type="submit" value="Save" />
+</form>
+<table class="table table-bordered">
+    @foreach (ParkWeather weather in Model)
+    {
+
+
+        <tr>
+            <th>
+                @switch (weather.FiveDayForecastValue)
+                {
+                    case 1:
+                        <span>Today</span>
+                        break;
+                    case 2:
+                        <span>Tomorrow</span>
+                        break;
+                    case 3:
+                        <span>@DateTime.Now.AddDays(2).DayOfWeek</span>
+                        break;
+                    case 4:
+                        <span>@DateTime.Now.AddDays(3).DayOfWeek</span>
+                        break;
+                    case 5:
+                        <span>@DateTime.Now.AddDays(4).DayOfWeek</span>
+                        break;
+                }
+            </th>
+            <td>
+                <img src="~/images/weather/@(weather.Forecast.Replace(" ", "")).png" /><br />
+                High: @weather.HighTemp     Low: @weather.LowTemp<br />
+
+                @switch (weather.Forecast)
+                {
+                    case "snow":
+                        <span>Pack snowshoes</span>;
+                        break;
+                    case "rain":
+                        <span>Pack rain gear and waterproof shoes</span>;
+                        break;
+                    case "thunderstorms":
+                        <span>Seek shelter and avoid hiking on exposed ridges</span>;
+                        break;
+                    case "sun":
+                        <span>Pack sunblock</span>;
+                        break;
+                }
+                <br />
+                @if (weather.HighTemp > 75)
+                {
+                    <span>Bring extra gallon of water</span>
+                }
+                @if (weather.LowTemp < 20)
+                {
+                    <span>Danger of exposure to frigid temperatures</span>
+                }
+                @if (weather.HighTemp - weather.LowTemp > 20)
+                {
+                    <span>Wear breathable layers</span>
+                }
+            </td>
+        </tr>
+    }
+</table>
 
