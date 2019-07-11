@@ -60,12 +60,13 @@ namespace Capstone.Web.Controllers
                 return View(survey);
             }
             surveyDAO.AddSurvey(survey);
-            return View();
+            return RedirectToAction("SurveyResults");
         }
         [HttpGet]
         public IActionResult SurveyResults()
         {
-
+            IList<SurveyResultVM> surveys = surveyDAO.SurveyResults();
+            return View(surveys);
         }
 
 
@@ -76,6 +77,7 @@ namespace Capstone.Web.Controllers
             if(newUnit == null)
             {
                 newUnit = "F";
+                HttpContext.Session.SetString("TempUnit", "F");
             }
             return newUnit;
         }

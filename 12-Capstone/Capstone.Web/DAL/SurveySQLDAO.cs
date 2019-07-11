@@ -39,7 +39,7 @@ namespace Capstone.Web.DAL
             }
         }
 
-        public IList<SurveyResultVM> SurveyResults(SurveyResultVM result)
+        public IList<SurveyResultVM> SurveyResults()
         {
             List<SurveyResultVM> results = new List<SurveyResultVM>();
 
