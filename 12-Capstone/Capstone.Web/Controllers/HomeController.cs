@@ -61,9 +61,13 @@ namespace Capstone.Web.Controllers
             }
             surveyDAO.AddSurvey(survey);
             return View();
-
+        }
+        [HttpGet]
+        public IActionResult SurveyResults()
+        {
 
         }
+
 
         #region Private Session Methods
         private string GetPreferredUnit()

@@ -30,7 +30,7 @@ namespace Capstone.Web.DAL
                     cmd.Parameters.AddWithValue("@activityLevel", survey.ActivityLevel);
 
                     cmd.ExecuteNonQuery();
-                   
+
                 }
             }
             catch (SqlException ex)
@@ -39,5 +39,47 @@ namespace Capstone.Web.DAL
             }
         }
 
+        public IList<SurveyResultVM> SurveyResults(SurveyResultVM result)
+        {
+            List<SurveyResultVM> results = new List<SurveyResultVM>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string sql = $"select Count(*) as tally, park.parkCode, park.parkName from park join survey_result on park.parkCode = survey_result.parkCode group by park.parkCode, park.parkName order by tally desc";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        results.Add(MapRowToSurvey(reader));
+                    }
+                    
+
+
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+            return results;
+        }
+        private SurveyResultVM MapRowToSurvey(SqlDataReader reader)
+        {
+            SurveyResultVM surveyResult = new SurveyResultVM();
+            surveyResult.SurveyCount = Convert.ToInt32(reader["tally"]);
+            surveyResult.ParkCode = Convert.ToString(reader["parkCode"]);
+            surveyResult.ParkName = Convert.ToString(reader["ParkName"]);
+            return surveyResult;
+
+
+
+        }
     }
 }
+//select Count(*) as tally, park.parkCode, park.parkName from park join survey_result on park.parkCode = survey_result.parkCode group by park.parkCode, park.parkName
