@@ -12,7 +12,7 @@ namespace Capstone.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private const string UNIT_KEY = "F";
+        //private const string UNIT_KEY = "F";
         private IParkDAO parkDAO;
         public HomeController(IParkDAO parkDAO)
         {
@@ -28,35 +28,53 @@ namespace Capstone.Web.Controllers
             Park park = parkDAO.GetParkById(parkCode);
             return View(park);
         }
-        public IActionResult Forecast(string parkCode, string unit)
+        public IActionResult Forecast(string parkCode)
         {
             // get unit from session
+            string unit = GetPreferredUnit();
             // add unit parameter
+
             IList<ParkWeather> weather = parkDAO.GetWeather(parkCode, unit);
             return View(weather);
         }
+        [HttpPost]
+        public IActionResult ToggleTemp(string parkID)
+        {
+            string unit = GetPreferredUnit();
+           
+                SetPreferredUnit(unit);
+            return RedirectToAction("Forecast", "Home", new { parkCode = parkID } );
+            
+            
+
+        }
         private string GetPreferredUnit()
         {
-            return HttpContext.Session.GetString(UNIT_KEY) ?? "";
+            string newUnit = HttpContext.Session.GetString("TempUnit");
+            if(newUnit == null)
+            {
+                newUnit = "F";
+            }
+            return newUnit;
         }
 
         private void SetPreferredUnit(string unit)
         {
-            if (cuisine == null)
+            if (unit == "F")
             {
-                ClearPreferredCuisine();
+                HttpContext.Session.SetString("TempUnit", "C");
             }
             else
             {
-                HttpContext.Session.SetString(UNIT_KEY, cuisine);
+                HttpContext.Session.SetString("TempUnit", "F");
             }
         }
-        private void ClearPreferredCuisine()
-        {
-            HttpContext.Session.Remove(UNIT_KEY);
-            //This will remove everything in Session while the above will only remove things stored at CUISINE_KEY
-            //HttpContext.Session.Clear();
-        }
+        //private void ClearPreferredCuisine()
+        //{
+        //    HttpContext.Session.Remove(UNIT_KEY);
+        //    This will remove everything in Session while the above will only remove things stored at CUISINE_KEY
+        //    HttpContext.Session.Clear();
+        //}
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

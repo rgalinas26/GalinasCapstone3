@@ -89,7 +89,7 @@ namespace Capstone.Web.DAL
 
                     while (reader.Read())
                     {
-                        weather.Add(MapWeatherToProduct(reader));
+                        weather.Add(MapWeatherToProduct(reader, unit));
                     }
                 }
             }
@@ -122,7 +122,7 @@ namespace Capstone.Web.DAL
             park.Number_Of_Species = Convert.ToInt32(reader["numberOfAnimalSpecies"]);
             return park;
         }
-        private ParkWeather MapWeatherToProduct(SqlDataReader reader, string unit = "F")
+        private ParkWeather MapWeatherToProduct(SqlDataReader reader, string unit)
         {
             ParkWeather parkWeather = new ParkWeather();
             parkWeather.Park_Code = Convert.ToString(reader["parkCode"]);
@@ -130,9 +130,10 @@ namespace Capstone.Web.DAL
             if (unit.ToLower() == "c")
             {
                 // todo: convert
-                parkWeather.LowTemp = Convert.ToInt32(reader["low"]);
-                parkWeather.HighTemp = Convert.ToInt32(reader["high"]);
+                parkWeather.LowTemp = (double)(Convert.ToInt32(reader["low"])-32)*(5/9);
+                parkWeather.HighTemp = (double)(Convert.ToInt32(reader["high"])-32)*(5/9);
                 parkWeather.Temperature_Unit = "C";
+                
             }
             else
             {

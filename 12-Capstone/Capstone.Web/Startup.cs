@@ -27,10 +27,14 @@ namespace Capstone.Web
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+           
+
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
@@ -38,9 +42,6 @@ namespace Capstone.Web
                 options.IdleTimeout = TimeSpan.FromMinutes(20);
                 options.Cookie.HttpOnly = true;
             });
-
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             string connectionString = Configuration.GetConnectionString("Default");
             services.AddTransient<IParkDAO, ParkSQLDAO>(d => new ParkSQLDAO(connectionString));
         }
@@ -59,7 +60,7 @@ namespace Capstone.Web
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
