@@ -1,0 +1,64 @@
+﻿@model Survey
+@{
+    ViewData["Title"] = "AddSurvey";
+}
+
+<h2>Add Survey</h2>
+<form method="post" asp-controller="Home" asp-action="AddSurvey">
+
+    <div asp-validation-summary="All" class="validationSummary"></div>
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td><label asp-for="ParkCode">Park Code</label></td>
+                <td>
+                    <select asp-for="ParkCode">
+                        <option value="CVNP">Cuyahoga Valley National Park</option>
+                        <option value="ENP">Everglades National Park</option>
+                        <option value="GCNP">Grand Canyon National Park</option>
+                        <option value="GNP">Glacier National Park</option>
+                        <option value="GSMNP">Great Smokey Mountain National Park</option>
+                        <option value="GTNP">Grand Teton National Park</option>
+                        <option value="MRNP">Mount Rainier National Park</option>
+                        <option value="RMNP">Rocky Mountian National Park</option>
+                        <option value="YNP">Yellowstone National Park</option>
+                        <option value="YNP2">Yosemite National Park</option>
+                    </select>
+                    <span asp-validation-for="ParkCode" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label asp-for="Email"></label></td>
+                <td>
+                    <input asp-for="Email" />
+                    <span asp-validation-for="Email" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label asp-for="State">State</label></td>
+                <td>@Html.DropDownListFor(x => x.State, Survey.States)</td>
+                <td>
+                    
+                    <span asp-validation-for="State" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label asp-for="ActivityLevel">Activity Level</label></td>
+                <td>
+                    <select asp-for="ActivityLevel">
+                        <option value="Inactive">Inactive</option>
+                        <option value="Sedentary">Sendentary</option>
+                        <option value="Active">Active</option>
+                        <option value="ExtremlyActive">Extremly Active</option>
+                    </select>
+                    <span asp-validation-for="ActivityLevel" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Submit Survey" /></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+

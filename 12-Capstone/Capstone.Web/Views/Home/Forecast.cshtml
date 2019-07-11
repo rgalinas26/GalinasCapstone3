@@ -6,13 +6,25 @@
 }
 
 <h2>Forecast</h2>
-<form asp-action="ToggleTemp"  asp-route-parkID="@Model[0].Park_Code" method="post">
-    <label>Convert</label>
-    <br />
-    <input type="submit" value="Toggle Temperature" />
-</form>
+@if (Model[0].Temperature_Unit == "F")
+{
+    <form asp-action="ToggleTemp" asp-route-parkID="@Model[0].Park_Code" method="post">
+        <label>Convert</label>
+        <br />
+        <input type="submit" value="Convert Forecast to Celsius" />
+    </form>
+}
+else
+{
+    <form asp-action="ToggleTemp" asp-route-parkID="@Model[0].Park_Code" method="post">
+        <label>Convert</label>
+        <br />
+        <input type="submit" value="Convert Forecast to Farenheit" />
+    </form>
+}
+
 <table class="table table-bordered">
-    
+
     @foreach (ParkWeather weather in Model)
     {
         <tr>
@@ -35,11 +47,12 @@
                         <span>@DateTime.Now.AddDays(4).DayOfWeek</span>
                         break;
                 }
-
             </th>
+        </tr>
+        <tr>
             <td>
                 <img src="~/images/weather/@(weather.Forecast.Replace(" ", "")).png" /><br />
-                High: @weather.HighTemp     Low: @weather.LowTemp<br />
+                High: @weather.HighTemp @weather.Temperature_Unit     Low: @weather.LowTemp @weather.Temperature_Unit  <br />
 
                 @switch (weather.Forecast)
                 {
@@ -56,21 +69,42 @@
                         <span>Pack sunblock</span>;
                         break;
                 }
+
                 <br />
-                @if (weather.HighTemp > 75)
+                @if (weather.Temperature_Unit == "C")
                 {
-                    <span>Bring extra gallon of water</span>
+                    @if (weather.HighTemp > 23)
+                    {
+                        <span>Bring extra gallon of water</span>
+                    }
+                    @if (weather.LowTemp < -6)
+                    {
+                        <span>Danger of exposure to frigid temperatures</span>
+                    }
+                    @if (weather.HighTemp - weather.LowTemp > 11)
+                    {
+                        <span>Wear breathable layers</span>
+                        }
+                    }
+                    else
+                    {
+
+                        @if (weather.HighTemp > 75)
+                        {
+                            <span>Bring extra gallon of water</span>
+                        }
+                        @if (weather.LowTemp < 20)
+                        {
+                            <span>Danger of exposure to frigid temperatures</span>
+                        }
+                        @if (weather.HighTemp - weather.LowTemp > 20)
+                        {
+                            <span>Wear breathable layers</span>
+                        }
                 }
-                @if (weather.LowTemp < 20)
-                {
-                    <span>Danger of exposure to frigid temperatures</span>
-                }
-                @if (weather.HighTemp - weather.LowTemp > 20)
-                {
-                    <span>Wear breathable layers</span>
-                }
-            </td>
-        </tr>
-    }
-</table>
+                </td>
+            </tr>
+
+        }
+ </table>
 

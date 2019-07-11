@@ -44,6 +44,7 @@ namespace Capstone.Web
             });
             string connectionString = Configuration.GetConnectionString("Default");
             services.AddTransient<IParkDAO, ParkSQLDAO>(d => new ParkSQLDAO(connectionString));
+            services.AddTransient<ISurveyDAO, SurveySQLDAO>(d => new SurveySQLDAO(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

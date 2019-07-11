@@ -130,8 +130,10 @@ namespace Capstone.Web.DAL
             if (unit.ToLower() == "c")
             {
                 // todo: convert
-                parkWeather.LowTemp = (double)(Convert.ToInt32(reader["low"])-32)*(5/9);
-                parkWeather.HighTemp = (double)(Convert.ToInt32(reader["high"])-32)*(5/9);
+                double low = Convert.ToInt32(reader["low"]);
+                parkWeather.LowTemp= (int)(((double)low - 32)/ 1.8);
+                double high = Convert.ToInt32(reader["high"]);
+                parkWeather.HighTemp = (int)(((double)high - 32) / 1.8);
                 parkWeather.Temperature_Unit = "C";
                 
             }

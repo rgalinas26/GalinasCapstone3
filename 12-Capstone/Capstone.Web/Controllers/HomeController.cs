@@ -14,9 +14,11 @@ namespace Capstone.Web.Controllers
     {
         //private const string UNIT_KEY = "F";
         private IParkDAO parkDAO;
-        public HomeController(IParkDAO parkDAO)
+        private ISurveyDAO surveyDAO;
+        public HomeController(IParkDAO parkDAO, ISurveyDAO surveyDAO)
         {
             this.parkDAO = parkDAO;
+            this.surveyDAO = surveyDAO;
         }
         public IActionResult Index()
         {
@@ -44,10 +46,26 @@ namespace Capstone.Web.Controllers
            
                 SetPreferredUnit(unit);
             return RedirectToAction("Forecast", "Home", new { parkCode = parkID } );
-            
-            
+        }
+        [HttpGet]
+        public IActionResult AddSurvey()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddSurvey(Survey survey)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(survey);
+            }
+            surveyDAO.AddSurvey(survey);
+            return View();
+
 
         }
+
+        #region Private Session Methods
         private string GetPreferredUnit()
         {
             string newUnit = HttpContext.Session.GetString("TempUnit");
@@ -76,7 +94,7 @@ namespace Capstone.Web.Controllers
         //    HttpContext.Session.Clear();
         //}
 
-
+        #endregion
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
