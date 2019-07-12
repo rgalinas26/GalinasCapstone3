@@ -49,7 +49,7 @@ namespace Capstone.Web.DAL
                 {
                     conn.Open();
 
-                    string sql = $"select Count(*) as tally, park.parkCode, park.parkName from park join survey_result on park.parkCode = survey_result.parkCode group by park.parkCode, park.parkName order by tally desc";
+                    string sql = $"select Count(*) as tally, park.parkCode, park.parkName from park join survey_result on park.parkCode = survey_result.parkCode group by park.parkCode, park.parkName order by tally desc, park.parkName asc";
                     SqlCommand cmd = new SqlCommand(sql, conn);
 
                     SqlDataReader reader = cmd.ExecuteReader();

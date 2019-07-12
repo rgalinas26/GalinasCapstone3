@@ -27,6 +27,7 @@ namespace Capstone.Web.Controllers
         }
         public IActionResult Detail(string parkCode)
         {
+
             Park park = parkDAO.GetParkById(parkCode);
             return View(park);
         }

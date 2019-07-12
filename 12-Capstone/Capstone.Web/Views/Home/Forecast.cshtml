@@ -23,67 +23,70 @@ else
     </form>
 }
 
-<table class="table table-bordered">
 
-    @foreach (ParkWeather weather in Model)
-    {
-        <tr>
-            <th>
-                @switch (weather.FiveDayForecastValue)
-                {
-                    case 1:
-                        <span>Today</span>
-                        break;
-                    case 2:
-                        <span>Tomorrow</span>
-                        break;
-                    case 3:
-                        <span>@DateTime.Now.AddDays(2).DayOfWeek</span>
-                        break;
-                    case 4:
-                        <span>@DateTime.Now.AddDays(3).DayOfWeek</span>
-                        break;
-                    case 5:
-                        <span>@DateTime.Now.AddDays(4).DayOfWeek</span>
-                        break;
-                }
-            </th>
-        </tr>
-        <tr>
-            <td>
-                <img src="~/images/weather/@(weather.Forecast.Replace(" ", "")).png" /><br />
-                High: @weather.HighTemp @weather.Temperature_Unit     Low: @weather.LowTemp @weather.Temperature_Unit  <br />
+    <table id="weather" class="table">
+        @foreach (ParkWeather weather in Model)
+        {
 
-                @switch (weather.Forecast)
-                {
-                    case "snow":
-                        <span>Pack snowshoes</span>;
-                        break;
-                    case "rain":
-                        <span>Pack rain gear and waterproof shoes</span>;
-                        break;
-                    case "thunderstorms":
-                        <span>Seek shelter and avoid hiking on exposed ridges</span>;
-                        break;
-                    case "sun":
-                        <span>Pack sunblock</span>;
-                        break;
-                }
-
-                <br />
-                @if (weather.Temperature_Unit == "C")
-                {
-                    @if (weather.HighTemp > 23)
+            <tr>
+                <th>
+                    @switch (weather.FiveDayForecastValue)
                     {
-                        <span>Bring extra gallon of water</span>
+                        case 1:
+                            <span>Today</span>
+                            break;
+                        case 2:
+                            <span>Tomorrow</span>
+                            break;
+                        case 3:
+                            <span>@DateTime.Now.AddDays(2).DayOfWeek</span>
+                            break;
+                        case 4:
+                            <span>@DateTime.Now.AddDays(3).DayOfWeek</span>
+                            break;
+                        case 5:
+                            <span>@DateTime.Now.AddDays(4).DayOfWeek</span>
+                            break;
                     }
-                    @if (weather.LowTemp < -6)
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <img id="weather-image" src="~/images/weather/@(weather.Forecast.Replace(" ", "")).png" /><br />
+                </td>
+                <td>
+                    <span id="temps">High: @weather.HighTemp @weather.Temperature_Unit     Low: @weather.LowTemp @weather.Temperature_Unit</span>  <br />
+
+                    @switch (weather.Forecast)
                     {
-                        <span>Danger of exposure to frigid temperatures</span>
+                        case "snow":
+                            <span>Pack snowshoes</span>;
+                            break;
+                        case "rain":
+                            <span>Pack rain gear and waterproof shoes</span>;
+                            break;
+                        case "thunderstorms":
+                            <span>Seek shelter and avoid hiking on exposed ridges</span>;
+                            break;
+                        case "sun":
+                            <span>Pack sunblock</span>;
+                            break;
                     }
-                    @if (weather.HighTemp - weather.LowTemp > 11)
+
+                    <br />
+                    @if (weather.Temperature_Unit == "C")
                     {
-                        <span>Wear breathable layers</span>
+                        @if (weather.HighTemp > 23)
+                        {
+                            <span>Bring extra gallon of water</span>
+                        }
+                        @if (weather.LowTemp < -6)
+                        {
+                            <span>Danger of exposure to frigid temperatures</span>
+                        }
+                        @if (weather.HighTemp - weather.LowTemp > 11)
+                        {
+                            <span>Wear breathable layers</span>
                         }
                     }
                     else
@@ -101,10 +104,10 @@ else
                         {
                             <span>Wear breathable layers</span>
                         }
-                }
+                    }
                 </td>
             </tr>
 
         }
- </table>
+    </table>
 

@@ -72,8 +72,31 @@ body {
     display: inline-block
 }
 #five-day-forecast {
-    margin-left:522px;
+    padding-left:497px;
+    
+    font-weight: bold;
+    
 }
+#forecast-anchor {
+    text-decoration-color: #f8e801;
+    text-emphasis-color: #f8e801;
+}
+#detail-park-name{
+    font-weight: bold;
+}
+#detail-text{
+    font-size: 18px;
+}
+#weather{
+    font-weight:bold;
+}
+#temps{
+    font-size: 32px;
+}
+#weather-image{
+    border-radius: 150px;
+}
+
 
 
 

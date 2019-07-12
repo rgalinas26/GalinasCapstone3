@@ -36,9 +36,11 @@
             </tr>
             <tr>
                 <td><label asp-for="State">State</label></td>
-                <td>@Html.DropDownListFor(x => x.State, Survey.States)</td>
                 <td>
-                    
+                    @*@Html.DropDownListFor(survey => survey.State, Survey.States)*@
+                    <select asp-for="State" asp-items="Survey.States"></select>
+                
+
                     <span asp-validation-for="State" class="error"></span>
                 </td>
             </tr>
