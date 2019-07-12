@@ -6,16 +6,22 @@
 <h2>Detail</h2>
 <table class="table table-bordered">
     <thead>
-        <tr>
-            <th>@Model.Park_Name (@Model.Park_Code)</th>
+        <tr id="detail-head">
+            <td>@Model.Park_Name (@Model.Park_Code)</td>
+            <td id=" five-day-forecast" >
+                <a asp-controller="home" asp-action="Forecast" asp-route-parkCode="@Model.Park_Code">
+                    <span>Get 5 Day Forecast for @Model.Park_Name</span>
+                </a>
+            </td>
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <tr id="detail-img">
             <td>
 
-                <img src="~/images/parks/@(Model.Park_Code).jpg" /> <span>Description: @Model.Description</span>
+                <img src="~/images/parks/@(Model.Park_Code).jpg" /> 
             </td>
+            <td>Description: @Model.Description</td>
         </tr>
         <tr>
             <td><b>Location:</b> @Model.State</td>
@@ -53,7 +59,7 @@
         <tr>
             <td>
                 <a asp-controller="home" asp-action="Forecast" asp-route-parkCode="@Model.Park_Code">
-                    <span>Get Five Day Forecast for @Model.Park_Name</span>
+                    <span>Get 5 Day Forecast for @Model.Park_Name</span>
                 </a>
             </td>
         </tr>

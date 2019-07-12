@@ -3,34 +3,27 @@
     ViewData["Title"] = "SurveyResults";
 }
 
-<h2>SurveyResults</h2>
+<h2>Survey Review</h2>
 <table>
-    <thead>
-        <tr>
-            <th>Park Name</th>
-        </tr>
-        <tr>
-            <th>Number of Surveys</th>
-        </tr>
-    </thead>
     <tbody>
         @foreach (SurveyResultVM survey in Model)
         {
-            <tr>
+            <tr id="survey">
                 <td>
-                    <img src="~/images/parks/@(survey.ParkCode).jpg" />
+                    <img id="survey-img" src="~/images/parks/@(survey.ParkCode).jpg" />
                 </td>
-            </tr>
-            <tr>
-                <td>
-                    @survey.ParkName
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    @survey.SurveyCount
-                </td>
-            </tr>
+                
+               
+                <td id="survey-info">
+                    <b>Park Name: </b>@survey.ParkName<br/><br/>
+                
+                    
+                
+                    
+                        <b>Number of Surveys: </b>@survey.SurveyCount
+                    </td>
+                </tr>
+            
         }
     </tbody>
 </table>
